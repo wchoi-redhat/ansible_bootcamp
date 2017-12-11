@@ -37,4 +37,9 @@
 - name: Remove pgsql data directory
   file:
     state: absent
-    path: /var/lib/pgsql
+    path: /var/lib/pgsql/data
+
+- name: Remove pgsql initdb.log file
+  file:
+    state: absent
+    path: /var/lib/pgsql/initdb.log

@@ -115,14 +115,14 @@
       msg: "Either uncomment the postgres setup or manually login and initialize"
 
  # only run the next 2 tasks once!
-  - name: Check for pgdata initdb directory
+  - name: Check for pgdata initdb status with initdb.log
     stat: path=/var/lib/pgsql/initdb.log
     register: pgdata_stat
     failed_when: false
 
   - name: Initialize database
     command: postgresql-setup initdb
-    when: pgdata_stat.stat.isdir is not defined or not pgdata_stat.stat.isdir
+    when: not pgdata_stat.stat.exists
 
   #- name: initilize postgres
   #  command: postgresql-setup initdb

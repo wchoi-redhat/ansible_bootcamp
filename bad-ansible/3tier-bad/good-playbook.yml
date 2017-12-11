@@ -1,0 +1,20 @@
+- name: deploy frontends
+  hosts: frontends
+  gather_facts: false
+  become: true
+  roles:
+    - { role: "./roles/frontends" }
+
+- name: deploy apps
+  hosts: apps
+  gather_facts: false
+  become: true
+  roles:
+    - { role: "./roles/apps" }
+
+- name: deploy appdbs
+  hosts: appdbs
+  gather_facts: false
+  become: true
+  roles:
+    - { role: "./roles/appdbs" }
