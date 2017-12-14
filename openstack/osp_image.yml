@@ -1,0 +1,15 @@
+- hosts: localhost
+  become: yes
+  gather_facts: false
+  tasks:
+  - name: download RHEL image
+    get_url:
+      url: http://workstation-c7c0.rhpds.opentlc.com/www.opentlc.com/small-rhel-cloud.qcow2
+      dest: /root/rhel-guest-image-7.3.x86_64.qcow2
+  - os_image:
+      cloud: ospcloud
+      name: rhel-guest
+      container_format: bare
+      disk_format: qcow2
+      state: present
+      filename: /root/rhel-guest-image-7.3.x86_64.qcow2

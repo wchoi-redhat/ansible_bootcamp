@@ -1,0 +1,29 @@
+---
+# tasks file for appdbs
+- name: install postgres
+  yum:
+    name: postgresql-server
+    state: latest
+- name: enable postgres at boot
+  service:
+    name: postgresql
+    enabled: yes
+# only run the next 2 tasks once!
+- name: Check for pgdata initdb status with initdb.log
+  stat: path=/var/lib/pgsql/initdb.log
+  register: pgdata_stat
+  failed_when: false
+- name: Initialize database
+  command: postgresql-setup initdb
+  when: not pgdata_stat.stat.exists
+#- name: initilize postgres
+#  command: postgresql-setup initdb
+#  ignore_errors: true
+#- name: tell user to finish setting up postgres
+#  debug:
+#    msg: "Either uncomment the postgres setup or manually login and initialize"
+
+- name: start postgres
+  service:
+    name: postgresql.service
+    state: started
